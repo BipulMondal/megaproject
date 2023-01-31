@@ -2,5 +2,14 @@
 	"image": "mcr.microsoft.com/devcontainers/universal:2",
 	"features": {
 		"ghcr.io/devcontainers/features/aws-cli:1": {}
+	},
+	//configure tool-specific properties
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"esbenp.prettier-vscode",
+				"rangav.vscode-thunder-client"
+			]
+		}
 	}
 }
