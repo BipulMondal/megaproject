@@ -1,9 +1,9 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"
 import AuthRoles from '../utils/authRoles'
 import bcrypt from 'bcryptjs'
 import JWT from 'jsonwebtoken'
 import crypto from 'crypto'
-import config from "../config/index";
+import config from "../config/index"
 
 
 
@@ -45,7 +45,7 @@ userSchema.pre("save", async function(next){
     next()
 })
 
-//add more featuers directly to your schema
+//add more featuers/methods directly to your schema
 userSchema.methods = {
     //compare password
     comparePassword: async function(enteredPassword){
@@ -64,6 +64,22 @@ userSchema.methods = {
                 expiresIn: config.JWT_EXPIRY
             }
         )
+    },
+
+    generateForgotPasswordToken: function(){
+        const forgotToken = crypto.randomBytes(20).toString('hex');
+
+        //step 1 - save to DB
+        this.forgotPasswordToken = crypto 
+        .createHash("sha256")
+        .update(forgotToken)
+        .digest("hex")
+
+        this.forgotPasswordExpiry = Date.now() + 20 * 60 * 1000
+
+        //step 2 - return value to user
+        return forgotToken
+
     }
 }
 
